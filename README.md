@@ -2,8 +2,8 @@ python manage.py add_data - Наполнить БД.
 
 Эндпоинты :
 
-1. http://127.0.0.1:8000/api/client/workerList/ - Список рабочих.
-2.
+1. http://127.0.0.1:8000/api/client/workerList/ - список рабочих.
+2. http://127.0.0.1:8000/api/client/AddAppointment/ - добавление записи
 3. http://127.0.0.1:8000/api/client/locationsList/ - список локаций.
 4. http://127.0.0.1:8000/api/worker/AppointmentList/ - список заказов.
 5. http://127.0.0.1:8000/api/worker/AppointmentList/?worker={worker.id}&date={year-month-day} - список заказов по рабочему и по дате.
