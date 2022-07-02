@@ -15,7 +15,6 @@ from api.tools import getDay
 
 
 class WorkerListView(generics.ListCreateAPIView):
-
     serializer_class = WorkerSerializer
 
     def get_queryset(self):
@@ -39,7 +38,7 @@ class AppointmentListView(generics.ListCreateAPIView):
         worker = self.request.query_params.get('worker')
         date = self.request.query_params.get('date')
         if worker and date is not None:
-            queryset = queryset.filter(apointment_worker=worker,date=date)
+            queryset = queryset.filter(apointment_worker=worker, date=date)
         return queryset
 
     def get(self, request, *args, **kwargs):
@@ -52,17 +51,20 @@ class SchelduleListVeiw(generics.ListAPIView):
 
     def get_queryset(self):
         work_day = self.request.query_params.get('work_day')
-        work_day = getDay(work_day)
+        if work_day:
+            work_day.upper()
         worker = self.request.query_params.get('worker')
         queryset = Schedule.objects.all()
 
-        if worker is not None:
+        if worker and work_day is not None:
             queryset = queryset.filter(worker=worker, work_day=work_day)
         return queryset
 
 
 
-
+class AppointmentAddView(generics.CreateAPIView):
+    serializer_class = AppointmentSerializer
+    queryset = Appointment.objects.all()
 
 
 

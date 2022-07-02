@@ -12,14 +12,12 @@ class Command(BaseCommand):
         for location in locations:
             Location.objects.get_or_create(
                 nameLocation=location)
-        location_db = Location.objects.all()
 
 
-        for idx, worker in enumerate(workers):
+
+        for worker in workers:
             Worker.objects.get_or_create(
                 full_name=worker,
-                work_location=location_db[idx]
-
             )
 
 

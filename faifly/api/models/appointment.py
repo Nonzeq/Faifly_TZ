@@ -1,4 +1,4 @@
-from django.core.exceptions import ValidationError
+
 from django.db import models
 from api.models import worker
 from api.models.model_custom_validators import date_now_validator, validate_on_schedule_time, \
