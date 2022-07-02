@@ -24,8 +24,6 @@ class Schedule(models.Model):
         location.Location,
         verbose_name="Location of work",
         related_name="location",
-        # on_delete=models.CASCADE,
-        # null=True,
         blank=True,
     )
     def get_work_location(self):
@@ -37,17 +35,12 @@ class Schedule(models.Model):
             queryset = Schedule.objects.filter(
                 work_day=self.work_day,
             )
-            # queryset_day = Schedule.objects.filter(time__range=(self.time_start, self.time_end))
-            # for i in queryset_day:
-            #     print(i.work_location)
+
             for item in queryset:
-                if item.time_start <= (self.time_start or self.time_end) <= item.time_end:
+                if item.time_start <= (self.time_start and self.time_end) <= item.time_end:
                     raise forms.ValidationError(
                         message=f"this time has already exist {self.time_start}-{self.time_end}"
                     )
-                elif self.time_start <= item.time_start and self.time_end >= item.time_end:
-                    raise ValidationError(f"Top range time error")
-
 
         super().save(*args, **kwargs)
 
