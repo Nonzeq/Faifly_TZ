@@ -51,12 +51,11 @@ class SchelduleListVeiw(generics.ListAPIView):
 
     def get_queryset(self):
         work_day = self.request.query_params.get('work_day')
-        if work_day:
-            work_day.upper()
         worker = self.request.query_params.get('worker')
         queryset = Schedule.objects.all()
 
         if worker and work_day is not None:
+            work_day = work_day.upper()
             queryset = queryset.filter(worker=worker, work_day=work_day)
         return queryset
 
