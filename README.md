@@ -7,6 +7,8 @@ Docker:
 6. docker-compose up -d
 7. http://localhost:3000/
 
+mkdir PROJECT && cd PROJECT git init git clone https://github.com/Nonzeq/Faifly_TZ.git cd Faifly_TZ docker-compose build docker-compose up -d
+
 docker stop $(docker ps -a -q) : for stop all containers
 
 docker rm $(docker ps -a -f status=exited -q) : for delete all containers with status exist
