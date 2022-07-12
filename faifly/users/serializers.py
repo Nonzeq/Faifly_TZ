@@ -17,6 +17,9 @@ User = get_user_model()
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
+    default_error_messages = {
+        "no_active_account": ("Incorrect login or password")
+    }
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
