@@ -18,7 +18,7 @@ $api.interceptors.response.use((config) =>{
     return config
 }, async (error) => {
     const originalRequest = error.config;
-    console.log(error.response.data);
+    // console.log(error);
     
     if(error.response.status === 401){
         try{
@@ -30,7 +30,7 @@ $api.interceptors.response.use((config) =>{
             localStorage.setItem('tokenAccess', response.data.access)
             return $api.request(originalRequest);
         }catch(e){
-           console.log(e);
+        //    console.log(e);
         }
 
     }

@@ -40,7 +40,8 @@ export default class Store {
             this.setUser(responce.data.id)
             this.setRole(responce.data.role)
         }catch(e){
-                console.log(e.responce?.data?.message);
+                // console.log(e.responce?.data?.message);
+                return Promise.reject(e)
         }
     }
     async registration(username, email, password,password2,role){
@@ -56,7 +57,8 @@ export default class Store {
             this.setUser(responce.data.id)
             this.setRole(responce.data.role)
         }catch(e){
-                console.log(e);
+                // console.log(e);
+                return Promise.reject(e)
         }finally{
             this.login(email, password)
             
