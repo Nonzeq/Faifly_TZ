@@ -1,4 +1,17 @@
-python manage.py add_data - Наполнить БД.
+Docker: 
+1. mkdir PROJECT && cd PROJECT
+2. git init
+3. git clone https://github.com/Nonzeq/REACT_DJANGO.git
+4. cd REACT_DJANGO
+5. docker-compose build
+6. docker-compose up -d
+7. http://localhost:3000/
+
+docker stop $(docker ps -a -q) : for stop all containers
+
+docker rm $(docker ps -a -f status=exited -q) : for delete all containers with status exist
+
+docker system prune -a : for delete all images
 
 Эндпоинты :
 
