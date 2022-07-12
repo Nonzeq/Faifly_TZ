@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Context } from "..";
 import Mybutton from "../UI/buttons/MyButton";
@@ -22,4 +23,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default observer(HomePage);
