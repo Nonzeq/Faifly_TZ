@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-vum!gzem80g$g-mwmcz6pu8g04+rh90erl5z_7#q%4)^#ro#*i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
 # Application definition
@@ -58,9 +58,15 @@ INSTALLED_APPS = [
     'users',
     'api',
     'rest_framework',
+    'corsheaders',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
+
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,6 +78,9 @@ MIDDLEWARE = [
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 
 ]
+
+
+
 
 ROOT_URLCONF = 'faifly.urls'
 
@@ -151,8 +160,16 @@ WAGTAIL_SITE_NAME = 'My Example Site'
 
 
 
+REST_FRAMEWORK = {
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+
+}
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000",
+    "http://localhost:3000",
 ]
 
 CORS_ALLOW_METHODS = [
@@ -164,4 +181,7 @@ CORS_ALLOW_METHODS = [
     "PUT",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+

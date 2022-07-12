@@ -1,0 +1,16 @@
+.myBtn {
+    padding: 5px 20px;
+    font-size: 14px;
+    background: transparent;
+    border: 3px solid lightblue;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 1s;
+
+}
+
+.myBtn:hover{
+
+    background-color: lightblue;
+
+}

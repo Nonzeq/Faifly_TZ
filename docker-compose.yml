@@ -1,0 +1,27 @@
+version: "3.2"
+services:
+  project:
+      container_name: code
+      command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+      build:
+        context: ./faifly/
+      environment:
+        MYENV: EXAMPLE
+      volumes:
+        - .:/code
+      ports:
+        - "8000:8000"
+
+
+  frontend:
+    restart: always
+    command : npm start
+    container_name: front_end
+    build:
+      context: ./front_end/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    depends_on:
+      - project

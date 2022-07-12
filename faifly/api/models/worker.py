@@ -5,7 +5,7 @@ from api.models import location
 
 class Worker(models.Model):
 
-    full_name = models.CharField(max_length=140, verbose_name='Worker name')
+    full_name = models.CharField(max_length=140, verbose_name='Worker name',unique=True)
     # work_location = models.OneToOneField(
     #     to=location.Location,
     #     verbose_name="Location of work",

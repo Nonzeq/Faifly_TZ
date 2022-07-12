@@ -1,17 +1,27 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+
 from api.models.appointment import Appointment
 from api.models.location import Location
 from api.models.schedule import Schedule
 from api.models.worker import Worker
 from api.serializers import (
-                                WorkerSerializer,
-                                LocationSerializer,
-                                ScheduleSerializer,
-                                AppointmentSerializer
-                            )
+    WorkerSerializer,
+    LocationSerializer,
+    ScheduleSerializer,
+    AppointmentSerializer, AddAppointmentSerializer
+)
+from rest_framework import serializers
 
 
-from api.tools import getDay
+class WorkerByid(generics.ListAPIView):
+    serializer_class = WorkerSerializer
+    def get_queryset(self):
+        queryset = Worker.objects.all()
+        id = self.request.query_params.get('id')
+        if id is not None:
+            queryset = queryset.filter(pk=id)
+        return queryset
 
 
 class WorkerListView(generics.ListCreateAPIView):
@@ -31,12 +41,15 @@ class LocationListView(generics.ListCreateAPIView):
 
 
 class AppointmentListView(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = AppointmentSerializer
 
     def get_queryset(self):
         queryset = Appointment.objects.all()
         worker = self.request.query_params.get('worker')
         date = self.request.query_params.get('date')
+        if worker is not None:
+            queryset = queryset.filter(apointment_worker=worker)
         if worker and date is not None:
             queryset = queryset.filter(apointment_worker=worker, date=date)
         return queryset
@@ -62,14 +75,29 @@ class SchelduleListVeiw(generics.ListAPIView):
 
 
 class AppointmentAddView(generics.CreateAPIView):
+    serializer_class = AddAppointmentSerializer
+    queryset = Appointment.objects.all()
+    # permission_classes = (IsAuthenticated,)
+
+
+    def perform_create(self, serializer):
+        request = serializer.context["request"]
+        serializer.save(user=request.user)
+
+
+class AppointmentUser(generics.ListAPIView):
+    serializer_class = AppointmentSerializer
+
+
+    def get_queryset(self):
+        queryset = Appointment.objects.all()
+        user = self.request.query_params.get('user')
+        if user is not None:
+            queryset = queryset.filter(user=user)
+            return queryset
+
+
+class DeleteUserAppointment(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AppointmentSerializer
     queryset = Appointment.objects.all()
-
-
-
-
-
-
-
-
-
+    permission_classes = (IsAuthenticated,)

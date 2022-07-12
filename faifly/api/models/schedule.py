@@ -20,27 +20,40 @@ class Schedule(models.Model):
     time_start = models.TimeField(verbose_name="Start work", null=True,)
     time_end = models.TimeField(verbose_name="End work", null=True)
     is_update = models.BooleanField(default=False)
-    work_location = models.ManyToManyField(
+    work_location = models.ForeignKey(
         location.Location,
         verbose_name="Location of work",
         related_name="location",
         blank=True,
+        on_delete=models.CASCADE,
     )
-    def get_work_location(self):
-        return "\n".join([p.nameLocation for p in self.work_location.all()])
+    # def get_work_location(self):
+    #     return "\n".join([p.nameLocation for p in self.work_location.all()])
+
+
 
     def save(self, *args, **kwargs):
 
         if self.is_update == False:
             queryset = Schedule.objects.filter(
+                worker=self.worker,
                 work_day=self.work_day,
+                work_location=self.work_location,
             )
-
-            for item in queryset:
-                if item.time_start <= (self.time_start and self.time_end) <= item.time_end:
+            print([i.worker for i in queryset])
+            for schedule_time in queryset:
+                if schedule_time.time_start < self.time_start < schedule_time.time_end or \
+                        schedule_time.time_start < self.time_end < schedule_time.time_end:
                     raise forms.ValidationError(
-                        message=f"this time has already exist {self.time_start}-{self.time_end}"
+                        message=f"this time range has already exist {self.time_start}-{self.time_end}"
                     )
+                else:
+                    if self.time_start < schedule_time.time_start < self.time_end or \
+                            self.time_start < schedule_time.time_end < self.time_end:
+                        raise forms.ValidationError(
+                            message=f"this  time {self.worker} has Schedule, your time: {self.time_start}-{self.time_end}"
+                                    f" exist time: {schedule_time.time_start}-{schedule_time.time_end}"
+                        )
 
         super().save(*args, **kwargs)
 

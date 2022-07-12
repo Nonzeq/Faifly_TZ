@@ -1,0 +1,155 @@
+.App{
+    display: flex;
+    
+}
+
+
+.loaderError__container{
+    margin-top: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.users, .groups{
+    display: flexbox;
+    width: 800px;
+    align-items: center;
+    justify-content: center;
+}
+/* .appointment_content{
+    display: flexbox;
+
+    align-items:initial;
+    justify-content: center;
+} */
+.appointment__wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add {
+    margin: 20px 200px;
+    display:flex;
+    align-items: center;
+    justify-content: right;
+    width: 800px;
+}
+
+header {
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    background-color:lightblue;
+    height: 70px;
+}
+
+
+
+.navbar__header{
+    margin: 0 80px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+    height: 70px;
+}
+
+.header__link{
+    margin: 30px 30px;
+    font-size: 19px;
+    padding: 0 0;
+    transition: .3s;
+    cursor: pointer;
+    text-decoration: white;
+
+}
+
+
+.header__link_get{
+    padding: 0 0;
+    margin: 30px 30px;
+    text-decoration:none;
+    border-bottom: 7px solid white;
+    height: 20px;
+    font-size: 19px;
+}
+.header__link:hover{
+    text-decoration:none;
+    border-bottom: 7px solid white;
+    height: 30px;
+}
+
+
+
+a { 
+    margin: 10px;
+    text-decoration: none;
+    color: rgb(7, 7, 7);
+
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+
+.post {
+    display: flex;
+    border: 5px solid lightblue;
+    padding: 10px;
+    margin-top: 15px;
+    justify-content:space-between;
+    align-items: center;
+    border-radius: 30px;
+    margin-bottom: 15px;
+
+  
+}
+.post__body {
+      margin-left: 0;
+}
+
+.post__content{
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+}
+.post__appoint_content{
+    margin: 80px;
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+}
+  
+
+  .page__wrapper, .group__wrapper, .users__wrapper {
+    margin-top: 30px;
+    display:flex;
+    justify-content: center;
+    align-content:center;
+    flex-wrap: wrap;
+    padding-bottom: 50px;
+  }
+
+  .page {
+    padding: 10px;
+    border: 1px solid lightblue;
+    cursor: pointer;
+  }
+  .page__current {
+    border: 5px solid yellow;
+    font-weight: bold;
+  }
+
+
+  .btns {
+      display: flex;
+      justify-content:space-between;
+      align-items: center;
+  }

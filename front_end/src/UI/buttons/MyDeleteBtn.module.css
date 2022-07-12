@@ -1,0 +1,18 @@
+
+.myDeleteBtn {
+    padding: 5px 20px;
+    font-size: 14px;
+    background: transparent;
+    border: 3px solid rgb(241, 99, 99);
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 1s;
+    margin: 10px;
+
+}
+
+.myDeleteBtn:hover{
+
+    background-color: rgb(241, 99, 99);
+
+}

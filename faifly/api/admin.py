@@ -16,8 +16,6 @@ class LocationAdmin(ModelAdmin):
     search_fields = ('nameLocation',)
 
 
-
-
 class WorkerAdmin(ModelAdmin):
     model = Worker
     list_display = ['id', 'full_name',]
@@ -28,7 +26,7 @@ class WorkerAdmin(ModelAdmin):
 
 class ScheduleAdmin(ModelAdmin):
     model = Schedule
-    list_display = ['id','worker','get_work_location','work_day','time_start', 'time_end' ]
+    list_display = ['id','worker','work_location','work_day','time_start', 'time_end' ]
     list_display_links = ('id', 'work_day',)
     search_fields = ('work_day','worker__full_name', 'work_location__nameLocation')
 
@@ -36,7 +34,7 @@ class ScheduleAdmin(ModelAdmin):
 
 class ApointmentAdmin(ModelAdmin):
     model = Appointment
-    list_display = ['id','apointment_worker', 'date','apointment_start','apointment_end',]
+    list_display = ['id','apointment_worker','user', 'date','apointment_start','apointment_end',]
     list_display_links = ('id', 'apointment_start','apointment_worker')
     search_fields = ('apointment_start','apointment_end','date','apointment_worker__full_name',)
 
