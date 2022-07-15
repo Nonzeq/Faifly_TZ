@@ -23,5 +23,5 @@ docker system prune -a : for delete all images
 4. http://127.0.0.1:8000/api/worker/AppointmentList/ - список заказов.
 5. http://127.0.0.1:8000/api/worker/AppointmentList/?worker={worker.id}&date={year-month-day} - список заказов по рабочему и по дате.
 6. http://127.0.0.1:8000/api/client/SchelduleList/?work_day={day}&worker={worker.id} - расписание для контретного рабочего по дню недели
-
+7. http://127.0.0.1:8000/api/client/GetFreeAppointment/?worker={worker.id}&date={year-month-day} - получение свободных промежутков времени по рабочему и по дате
 http://127.0.0.1:8000/cms/ - wagtail admin panel
