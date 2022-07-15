@@ -40,3 +40,6 @@ class ScheduleSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+
+class AppointmentFreeTimeSerializer(serializers.Serializer):
+    time_range = serializers.CharField()

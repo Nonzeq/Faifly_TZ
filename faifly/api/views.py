@@ -1,4 +1,5 @@
-from rest_framework import generics
+
+from rest_framework import generics, views
 from rest_framework.permissions import IsAuthenticated
 
 from api.models.appointment import Appointment
@@ -9,9 +10,10 @@ from api.serializers import (
     WorkerSerializer,
     LocationSerializer,
     ScheduleSerializer,
-    AppointmentSerializer, AddAppointmentSerializer
+    AppointmentSerializer, AddAppointmentSerializer, AppointmentFreeTimeSerializer
 )
-from rest_framework import serializers
+
+from api.tools import getDay
 
 
 class WorkerByid(generics.ListAPIView):
@@ -101,3 +103,55 @@ class DeleteUserAppointment(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AppointmentSerializer
     queryset = Appointment.objects.all()
     permission_classes = (IsAuthenticated,)
+
+
+
+
+
+
+class GetFreeAppointment(generics.ListAPIView):
+    serializer_class = AppointmentFreeTimeSerializer
+
+    def get_queryset(self):
+
+        worker = self.request.query_params.get('worker')
+        date = self.request.query_params.get('date')
+        queryset = self.time_filter(worker,date)
+        return queryset
+
+
+    def time_filter(self, worker, date):
+        data = {}
+        queryset_appointment = Appointment.objects.filter(date=date, apointment_worker=worker)
+        queryset_schedule = Schedule.objects.filter(worker=worker, work_day=getDay(date))
+        if queryset_schedule and not queryset_appointment:
+            data['time_range'] = [f'{queryset_schedule.first().time_start} {queryset_schedule.last().time_end}']
+            return [data]
+        if not queryset_appointment:
+            data['time_range'] = [f"Worker don't work on {date}"]
+            return [data]
+
+        interwal = []
+
+        for schedule_item in queryset_schedule:
+            queryset_appointment_range = queryset_appointment.filter(
+                apointment_end__range=(schedule_item.time_start, schedule_item.time_end)
+            )
+            state = queryset_appointment[0].apointment_end
+            if queryset_appointment[0].apointment_start > schedule_item.time_start:
+                state = schedule_item.time_start
+            for appoint_item in queryset_appointment_range:
+                if schedule_item.time_start < appoint_item.apointment_start < schedule_item.time_end:
+                    if state != appoint_item.apointment_start:
+                        interwal.append(f'{state} - {appoint_item.apointment_start}')
+                        state = appoint_item.apointment_end
+            if queryset_appointment_range:
+                if queryset_appointment_range.last().apointment_end != schedule_item.time_end:
+                    interwal += [f'{queryset_appointment_range.last().apointment_end} - {schedule_item.time_end}']
+            else:
+                interwal += [f'{schedule_item.time_start} - {schedule_item.time_end}']
+
+        data['time_range'] = interwal
+        return [data]
+
+

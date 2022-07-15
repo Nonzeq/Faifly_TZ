@@ -6,7 +6,8 @@ def getDay(date):
     date = [int(i) for i in date]
     year, month, day = date
     current_day = datetime(year, month, day)
-    print(datetime.now())
+    # print(datetime.now())
+    # print(current_day.strftime('%A').upper())
     return current_day.strftime('%A').upper()
 
 

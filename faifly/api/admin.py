@@ -9,6 +9,7 @@ from .models.worker import Worker
 
 
 
+
 class LocationAdmin(ModelAdmin):
     model = Location
     list_display = ['id', 'nameLocation']

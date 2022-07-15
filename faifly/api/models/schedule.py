@@ -27,39 +27,48 @@ class Schedule(models.Model):
         blank=True,
         on_delete=models.CASCADE,
     )
-    # def get_work_location(self):
-    #     return "\n".join([p.nameLocation for p in self.work_location.all()])
+
+    def _is_instance(self, pk) -> bool:
+
+        if self.pk == pk:
+            return True
+        return False
 
 
+    def clean(self):
 
-    def save(self, *args, **kwargs):
-
-        if self.is_update == False:
-            queryset = Schedule.objects.filter(
-                worker=self.worker,
-                work_day=self.work_day,
-                work_location=self.work_location,
-            )
-            print([i.worker for i in queryset])
-            for schedule_time in queryset:
-                if schedule_time.time_start < self.time_start < schedule_time.time_end or \
-                        schedule_time.time_start < self.time_end < schedule_time.time_end:
-                    raise forms.ValidationError(
-                        message=f"this time range has already exist {self.time_start}-{self.time_end}"
-                    )
-                else:
-                    if self.time_start < schedule_time.time_start < self.time_end or \
-                            self.time_start < schedule_time.time_end < self.time_end:
-                        raise forms.ValidationError(
-                            message=f"this  time {self.worker} has Schedule, your time: {self.time_start}-{self.time_end}"
-                                    f" exist time: {schedule_time.time_start}-{schedule_time.time_end}"
+        for item in Schedule.objects.filter(
+            work_location=self.work_location,
+            work_day=self.work_day,
+                                            ):
+            worker, location, day, start, end = \
+                item.worker, item.work_location, item.work_day, item.time_start, item.time_end
+            print(worker, location, day, start, end)
+            if not self._is_instance(item.pk):
+                if start < self.time_start < end or start < self.time_end < end:
+                    raise ValidationError(
+                        {'time_start': f" Day {self.work_day} in loc {self.work_location} "
+                            f"this time range has already exist {self.time_start} worker - {worker}",
+                        'time_end': f"Day {self.work_day}  in loc {self.work_location}"
+                            f"in this time range has already exist {self.time_end} worker - {worker}"},
                         )
+                if self.time_start < start < self.time_end or self.time_start < end < self.time_end:
+                    raise ValidationError(
+                        {'time_start': f" Day {self.work_day} in loc {self.work_location} "
+                                       f"in this time range has shedule {start}-{end} worker - {worker}",
+                        'time_end': f"Day {self.work_day}  in loc {self.work_location}"
+                                     f"in this time range has has shedule {start}-{end} worker - {worker}"},
+                    )
 
-        super().save(*args, **kwargs)
 
 
     class Meta:
         ordering = ['time_start']
-        # unique_together = ('work_location', 'work_day')
+
+
+
+
+
+
 
 

@@ -15,4 +15,6 @@ urlpatterns = [
     path('client/AddAppointment/', AppointmentAddView.as_view()),
     path('client/DeleteAppointment/<int:pk>/', DeleteUserAppointment.as_view()),
     path('client/SchelduleList/', SchelduleListVeiw.as_view()),
+    path('client/GetFreeAppointment/', GetFreeAppointment.as_view()),
+    # path('client/GetFreeAppointment/', YourView.as_view()),
 ]
